@@ -1,5 +1,7 @@
 package pong;
 
+import java.util.List;
+
 import jgame.Context;
 import jgame.GObject;
 import jgame.GSprite;
@@ -25,12 +27,16 @@ public class Puck extends GSprite {
 		    @Override
 		    public void invoke(GObject target, Context context) {
 		        flip();
+		        
+		        List<Paddle> paddlesHit = context.hitTestClass(Paddle.class);
+		        Paddle paddle = paddlesHit.get(0);
 		    }
 		};
 		
 		addListener(htl);
 		
 		setPrimitive(PrimitiveShape.CIRCLE);
+		
 	}
 	
 	public void flip(){
