@@ -9,6 +9,7 @@ import jgame.ImageCache;
 import jgame.controller.ConstantMovementController;
 import jgame.listener.BoundaryRemovalListener;
 import jgame.listener.HitTestListener;
+import jgame.listener.ParentBoundsListener;
 
 public class Puck extends GSprite {
 	
@@ -30,8 +31,20 @@ public class Puck extends GSprite {
 		        
 		        List<Paddle> paddlesHit = context.hitTestClass(Paddle.class);
 		        Paddle paddle = paddlesHit.get(0);
+		        double offset = getY() - paddle.getY();
+		        cmc.setVelocityY(cmc.getVelocityY() + (offset / (paddle.getHeight() / 2)) * 5);
 		    }
 		};
+		
+		ParentBoundsListener bounce = new ParentBoundsListener() {
+		    @Override
+		    public void invoke(GObject target, Context context) {
+		        cmc.setVelocityY(-cmc.getVelocityY());
+		    }
+		};
+
+		bounce.setValidateHorizontal(false);
+		addListener(bounce);
 		
 		addListener(htl);
 		
