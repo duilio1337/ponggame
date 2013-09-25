@@ -19,7 +19,13 @@ public class Puck extends GSprite {
 		
 		super(ImageCache.forClass(Pong.class).get("puck.png"));
 		
-		cmc = new ConstantMovementController(-5, 0);
+		double vx;
+		if (Math.random() > 0.5)
+		    vx = 5;
+		else
+		    vx = -5;
+		
+		cmc = new ConstantMovementController(vx, 0);
 		addController(cmc);
 		
 		addListener(new BoundaryRemovalListener());
@@ -54,6 +60,9 @@ public class Puck extends GSprite {
 	
 	public void flip(){
 		
-		cmc.setVelocityX(-cmc.getVelocityX());
+		if(cmc.getVelocityX() < 0)
+			cmc.setVelocityX(-cmc.getVelocityX() + 0.5);
+		else
+			cmc.setVelocityX(-cmc.getVelocityX() - 0.5);
 	}
 }
